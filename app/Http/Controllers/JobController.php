@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Job;
 
 class JobController extends Controller
 {
@@ -13,7 +14,9 @@ class JobController extends Controller
      */
     public function index()
     {
-        //
+        $jobs = Job::all();
+
+        return response()->json(['jobs' => $jobs] , 200);
     }
 
     /**
@@ -34,7 +37,17 @@ class JobController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $job = $request->validate([
+            'name' => 'required',
+            'type' => 'required',
+            'work_condition' => 'required',
+            'category' => 'required',
+            'location' => 'required',
+        ]);
+
+        $job = Job::create($job);
+        
+        return response()->json(['message' => "Job Added Successfully"] , 200);
     }
 
     /**
