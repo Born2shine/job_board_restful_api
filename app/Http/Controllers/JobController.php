@@ -46,8 +46,8 @@ class JobController extends Controller
         ]);
 
         $job = Job::create($job);
-        
-        return response()->json(['message' => "Job Added Successfully"] , 200);
+
+        return response()->json(['message' => "Job Added Successfully"] , 201);
     }
 
     /**
@@ -58,7 +58,13 @@ class JobController extends Controller
      */
     public function show($id)
     {
-        //
+        $job = Job::find($id);
+        if($job){
+            return response()->json(['jobs' => $job] , 200);
+        }else{
+
+            return response()->json(['message' => 'No Record Found'] , 404);
+        }
     }
 
     /**
@@ -81,7 +87,30 @@ class JobController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'type' => 'required',
+            'work_condition' => 'required',
+            'category' => 'required',
+            'location' => 'required',
+        ]);
+        $job = Job::find($id);
+
+        if($job){
+            // $job->update($request->all());
+            $job->name = $request->name;
+            $job->type = $request->type;
+            $job->work_condition = $request->work_condition;
+            $job->category = $request->category;
+            $job->location = $request->location;
+            $job->update();
+
+            return response()->json(['message' => "Job Updated Successfully"] , 200);
+        }else{
+            
+            return response()->json(['message' => 'No Record Found'] , 404);
+        }
+
     }
 
     /**
@@ -92,6 +121,15 @@ class JobController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $job = Job::find($id);
+
+        if($job){
+            $job->delete();
+            return response()->json(['message' => 'Job Deleted Successfully'] , 200);
+        }else{
+            
+            return response()->json(['message' => 'No Record Found'] , 404);
+        }
+        
     }
 }
