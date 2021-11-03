@@ -13,6 +13,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::get('/', function () {
+    $type = ['Full-time', 'Temporary', 'Contract', 'Permanent', 'Internship', 'Volunteer'];
+    $condition = ['Remote', 'Part Remote', 'On-Premise'];
+    $categories = ['Tech', 'Health care', 'Hospitality', 'Customer Service', 'Marketing'];
+    
+    // function rand_num($arr)
+    // {
+    //    $length = (int) count($arr) - 1;
+    //    return rand(0, $length);
+    // }
+
+
+    // dd($condition[rand_num($condition)]);
+
     return view('welcome');
 });
